@@ -232,6 +232,7 @@ function selectMood(mood){
 }
 
 /* ---------------- Funny AI Story ---------------- */
+
 function generateStory(){
     const name = document.getElementById('storyName').value || "Friend";
     const lesson = document.getElementById('storyLesson').value;
@@ -244,38 +245,70 @@ function generateStory(){
         return;
     }
 
-    const funnyStory = `${name}'s journey last year was full of ups and downs 🤪. 
-They learned something amazing: "${lesson}" 😎. 
-One proud moment? "${proud}" 🎉. 
-Time to kick out fear: "${fear}" 🚫👻. 
-Next year they dream of "${dream}" 🌟. 
-In short, it's a mix of laughter, struggle, and new hopes!`;
+    const storyOutputDiv = document.getElementById('storyOutput');
+    storyOutputDiv.innerHTML = `<p style="text-align:center;">Generating your AI story... ✨</p>`;
 
-    const storyDiv = document.createElement('div');
-    storyDiv.className='story-output';
-    storyDiv.innerHTML=`<h3 style="text-align:center;color:#5a67d8;">✨ Funny AI Story for ${name} ✨</h3><p>${funnyStory}</p>`;
-    document.getElementById('storyOutput').innerHTML='';
-    document.getElementById('storyOutput').appendChild(storyDiv);
+    setTimeout(()=>{
+        // Array of sentence templates
+        const templates = [
+            `At the start of this year, ${name} discovered that "${lesson}" 😎.`,
+            `Who knew that "${lesson}" would teach ${name} so much? 😅`,
+            `${name} looked back and laughed, realizing "${lesson}" 🌟.`,
+            `"${lesson}" was a lesson ${name} would never forget! 😂`
+        ];
 
-    // confetti animation
-    for(let i=0;i<50;i++){
-        const conf=document.createElement('div');
-        conf.className='confetti-piece';
-        conf.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
-        conf.style.left=Math.random()*window.innerWidth+'px';
-        conf.style.top='0px';
-        document.body.appendChild(conf);
-        let top=0;
-        const fall=setInterval(()=>{
-            top+=Math.random()*10+5;
-            conf.style.top=top+'px';
-            if(top>window.innerHeight){
-                conf.remove();
-                clearInterval(fall);
-            }
-        },30);
-    }
+        const proudTemplates = [
+            `A proud moment was "${proud}" 🎉.`,
+            `They beamed when they accomplished "${proud}" 💖.`,
+            `"${proud}" made ${name} feel unstoppable! 💪`
+        ];
+
+        const fearTemplates = [
+            `Yet, they secretly worried about "${fear}" 👻.`,
+            `"${fear}" gave them goosebumps, but they faced it bravely! 😬`,
+            `No more fear of "${fear}" this year! ✨`
+        ];
+
+        const dreamTemplates = [
+            `Next, ${name} dreams of "${dream}" and hopes for the best 🌈.`,
+            `"${dream}" is on the horizon, and ${name} is ready! 🌟`,
+            `With a heart full of hope, ${name} plans to "${dream}" 🚀.`
+        ];
+
+        // Randomly pick one from each
+        const story = `${templates[Math.floor(Math.random()*templates.length)]} 
+${proudTemplates[Math.floor(Math.random()*proudTemplates.length)]} 
+${fearTemplates[Math.floor(Math.random()*fearTemplates.length)]} 
+${dreamTemplates[Math.floor(Math.random()*dreamTemplates.length)]} 
+In the end, ${name}'s year will be full of laughs, surprises, and little magic! ✨`;
+
+        storyOutputDiv.innerHTML = `<div class="story-output">
+            <h3 style="text-align:center;color:#5a67d8;">✨ Your Personalized AI Story for ${name} ✨</h3>
+            <p>${story}</p>
+        </div>`;
+
+        // confetti animation
+        for(let i=0;i<50;i++){
+            const conf=document.createElement('div');
+            conf.className='confetti-piece';
+            conf.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
+            conf.style.left=Math.random()*window.innerWidth+'px';
+            conf.style.top='0px';
+            document.body.appendChild(conf);
+            let top=0;
+            const fall=setInterval(()=>{
+                top+=Math.random()*10+5;
+                conf.style.top=top+'px';
+                if(top>window.innerHeight){
+                    conf.remove();
+                    clearInterval(fall);
+                }
+            },30);
+        }
+    }, 500);
 }
+
+
 
 /* Letter */
 function saveLetter(){
